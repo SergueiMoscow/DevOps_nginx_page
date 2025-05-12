@@ -22,10 +22,17 @@ jobs:
 
       - name: Login to Yandex Container Registry
         run: |
-          echo '${{ secrets.YC_SERVICE_ACCOUNT_KEY }}' > sa_key.json
-          yc iam key create --service-account-id $(echo '${{ secrets.YC_SERVICE_ACCOUNT_KEY }}' | jq -r '.service_account_id') --output key.json
+          # Установка yc CLI
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /usr/local -n
+          export PATH=$PATH:/usr/local/bin
+          
+          # Аутентификация
+          echo '${{ secrets.YC_SA_KEY }}' > sa_key.json
+          yc config set service-account-key sa_key.json
           yc container registry configure-docker --registry-id ${{ secrets.REGISTRY_ID }}
-          cat key.json | docker login --username json_key --password-stdin cr.yandex
+          
+          # Логин в Docker
+          cat sa_key.json | docker login --username json_key --password-stdin cr.yandex
 
       - name: Build and push
         uses: docker/build-push-action@v4
