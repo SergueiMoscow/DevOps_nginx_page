@@ -31,7 +31,7 @@ jobs:
           # Аутентификация
           echo '${{ secrets.YC_SERVICE_ACCOUNT_KEY }}' > sa_key.json
           yc config set service-account-key sa_key.json
-          yc container registry configure-docker --registry-id ${{ secrets.REGISTRY_ID }}
+          yc container registry configure-docker
           
           # Логин в Docker
           cat sa_key.json | docker login --username json_key --password-stdin cr.yandex
