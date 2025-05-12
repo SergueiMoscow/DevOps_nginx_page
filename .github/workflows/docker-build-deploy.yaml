@@ -71,5 +71,5 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           TAG=${GITHUB_REF#refs/tags/}
-          kubectl set image deployment/netology-app netology-app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$TAG
-          kubectl rollout status deployment/netology-app
+          kubectl set image deployment/netology-devops-app netology-devops-app=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$TAG
+          kubectl rollout status deployment/netology-devops-app
