@@ -23,8 +23,10 @@ jobs:
       - name: Login to Yandex Container Registry
         run: |
           # Установка yc CLI
-          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /usr/local -n
-          export PATH=$PATH:/usr/local/bin
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i ~/.local -n
+          export PATH=$PATH:~/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
           
           # Аутентификация
           echo '${{ secrets.YC_SA_KEY }}' > sa_key.json
