@@ -55,16 +55,12 @@ jobs:
 
       - name: Install kubectl
         run: |
-          # Скачиваем kubectl
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          
-          # Устанавливаем в домашнюю директорию (без sudo)
+          # Скачиваем kubectl напрямую в нужную директорию
           mkdir -p ~/.local/bin
-          install kubectl ~/.local/bin/kubectl
+          curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o ~/.local/bin/kubectl
           chmod +x ~/.local/bin/kubectl
-          
-          # Добавляем в PATH
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          kubectl version --client
 
       - name: Configure kubeconfig
         run: |
